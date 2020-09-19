@@ -1,0 +1,8 @@
+.idea
+venv
+.DS_store
+*.ics
+config.ini
+__pycache__
+q.py
+q-2.py
