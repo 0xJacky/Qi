@@ -2,7 +2,7 @@
 
 SZTU 强智教务系统课表转 ics 日历文件
 
-Copyright (c) 2020 0xJacky
+Copyright (c) 2020-2021 0xJacky
 
 
 ## 说明
@@ -11,6 +11,11 @@ Copyright (c) 2020 0xJacky
 3. ics 文件导入 iOS 日历，请将 ics 通过邮件发送到 iOS 设备上，通过系统自带的邮件 App 可以直接将日历导入，建议在导入前新建一个新的日历分区
 4. macOS 用户可以直接导入 ics 文件
 5. 获取日历相关捷径前往 https://jackyu.cn/projects/qi
+
+## 依赖
+```
+pip3 install beautifulsoup4 requests
+```
 
 ## 使用方法
 1. 复制一份 `config-default.ini` 为 `config.ini`

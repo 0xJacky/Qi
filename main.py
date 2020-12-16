@@ -3,13 +3,14 @@ import datetime
 from bs4 import BeautifulSoup
 from timetable import Timetable
 from holiday import Holiday
+from config import config
 from auth import Auth
 auth = Auth()
 timetable = Timetable()
 holiday = Holiday()
 
 
-xnxqid = '2020-2021-1'
+xnxqid = config.get('core', 'xnxqid')
 url = 'https://isea.sztu.edu.cn/jsxsd/xskb/xskb_list.do?xnxq01id=' + xnxqid
 r = auth.session.get(url, timeout=2)
 
@@ -138,9 +139,9 @@ print('课程总数:%s' % i)
 ics = xnxqid + '.ics'
 f = open(ics, 'w', encoding='utf-8')
 f.write(u'BEGIN:VCALENDAR\nVERSION:2.0\n')
-
+start_date = config.get('core', 'start_date').split('-')
 for course in schedules:
-    date = datetime.datetime(2020, 9, 7)
+    date = datetime.datetime(int(start_date[0]), int(start_date[1]), int(start_date[2]))
     hour = timetable.translate(course['section_index'])
 
     for w in course['week']:

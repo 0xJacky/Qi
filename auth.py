@@ -1,7 +1,5 @@
 import requests
-import configparser
-config = configparser.ConfigParser()
-config.read('config.ini')
+from config import config
 
 # 登录
 
