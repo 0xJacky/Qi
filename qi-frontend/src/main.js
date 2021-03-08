@@ -15,6 +15,8 @@ import {
 
 import api from "./api"
 
+import VueGtag from "vue-gtag-next"
+
 const app = createApp(App)
 
 app.use(Button)
@@ -28,5 +30,12 @@ app.use(Select)
 
 app.config.globalProperties.$http = http
 app.config.globalProperties.$api = api
+
+app.use(VueGtag, {
+    property: {
+        id: "G-TM8GG5FXMR"
+    },
+    isEnabled: process.env.NODE_ENV === 'production'
+})
 
 app.mount('#app')

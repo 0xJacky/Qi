@@ -2,7 +2,7 @@
 # cd qi-server || exit
 # pipreqs ./ --force
 
-cd ..
+# cd ..
 echo "building frontend"
 cd qi-frontend || exit
 yarn build

@@ -39,4 +39,6 @@ def course():
                            request_body['start_date'],
                            output_dir)
 
-        return Response(open(file_path).read())
+        return {
+            "data": open(file_path).read()
+        }

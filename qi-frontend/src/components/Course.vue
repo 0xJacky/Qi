@@ -54,7 +54,7 @@ export default {
                     this.$api.get_course_ics(data).then(r => {
                         this.$message.success("解析成功")
                         const blob = new Blob(
-                            [r], { type: 'text/calendar;charset=utf-8' })
+                            [r.data], { type: 'text/calendar;charset=utf-8' })
                         const aEle = document.createElement('a');     // 创建a标签
                         const href = window.URL.createObjectURL(blob);       // 创建下载的链接
                         aEle.href = href;
