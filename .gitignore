@@ -4,5 +4,6 @@ venv
 *.ics
 config.ini
 __pycache__
-q.py
-q-2.py
+node_modules
+dist
+*.pyc

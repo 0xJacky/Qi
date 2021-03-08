@@ -15,9 +15,10 @@ class Auth:
 
     session = requests.session()
 
-    def __init__(self):
-        self.get_cookie()
-        self.login()
+    def __init__(self, name = None, pwd = None):
+        if name and pwd:
+            self.get_cookie()
+            self.login(name, pwd)
 
     def encode(self, username, password):
         url = '/Logon.do?method=logon&flag=sess'
@@ -38,10 +39,8 @@ class Auth:
             i += 1
         return encode
 
-    def login(self):
+    def login(self, name, pwd):
         url = '/Logon.do?method=logon'
-        name = config.get('user', 'name')
-        pwd = config.get('user', 'password')
         data = {
             'encoded': self.encode(name, pwd)
         }
@@ -49,9 +48,11 @@ class Auth:
         r = self.session.post(self.host+url, headers=self.headers, data=data)
         if '培养方案' in r.text:
             print('登录成功')
+            return True
         else:
             print(r.text)
             print('登录失败')
+            return False
 
     def get_cookie(self):
         self.session.get(self.host, headers=self.headers)
