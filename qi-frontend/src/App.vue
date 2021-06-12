@@ -2,7 +2,7 @@
     <a-config-provider :locale="locale">
         <div class="project-title">
             <h1>Project Qi</h1>
-            <h2>SZTU 教务系统工具</h2>
+            <h2>教务系统工具</h2>
         </div>
         <a-tabs v-model:activeKey="activeKey">
             <a-tab-pane key="0" tab="课程表">

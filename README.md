@@ -1,7 +1,7 @@
 # Qi
 Version: 1.0
 
-SZTU 强智教务系统课表转 ics 日历文件
+我校强智教务系统课表转 ics 日历文件
 
 Copyright (c) 2020-2021 0xJacky
 
