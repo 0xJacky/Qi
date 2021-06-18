@@ -27,7 +27,8 @@ pip3 install -r qi-server/requirements.txt
 1. 进入 `qi-server`
 2. 复制一份 `config-default.ini` 为 `config.ini`
 3. 进入 `config.ini` 配置教务系统学号及密码
-4. 执行 `python3 cli.py` 即可生成本学期课表
+4. 执行 `python3 cli.py -c` 即可生成本学期课表
+5. 执行 `python3 cli.py -e` 即可生成考试安排
 
 
 ## Docker 前后端模式使用方法
