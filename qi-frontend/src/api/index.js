@@ -7,6 +7,10 @@ const api = {
 
     get_course_ics(data) {
         return http.post('/course', data)
+    },
+
+    get_exam_ics(data) {
+        return http.post('/exam', data)
     }
 
 }

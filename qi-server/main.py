@@ -1,11 +1,13 @@
+import codecs
+import sys
 import tempfile
 
-from flask import Flask, Response, request
+from flask import Flask, request
 
 from auth import Auth
 from course import course_handler
-import sys
-import codecs
+from exam import exam_handler
+
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 app = Flask(__name__)
@@ -38,6 +40,22 @@ def course():
                            request_body['xnxqid'],
                            request_body['start_date'],
                            output_dir)
+
+        return {
+            "data": open(file_path).read()
+        }
+
+
+@app.route("/exam", methods=['POST'])
+def exam():
+    request_body = request.json
+
+    with tempfile.TemporaryDirectory() as output_dir:
+        file_path = \
+            exam_handler(request_body['school_id'],
+                         request_body['password'],
+                         request_body['xnxqid'],
+                         output_dir)
 
         return {
             "data": open(file_path).read()

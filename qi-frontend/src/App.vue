@@ -8,10 +8,10 @@
             <a-tab-pane key="0" tab="课程表">
                 <course/>
             </a-tab-pane>
-            <!--<a-tab-pane key="1" tab="Tab 2" disabled>
-
-            </a-tab-pane>-->
-            <a-tab-pane key="3" tab="关于">
+            <a-tab-pane key="1" tab="考试安排">
+                <exam/>
+            </a-tab-pane>
+            <a-tab-pane key="2" tab="关于">
                 <about/>
             </a-tab-pane>
         </a-tabs>
@@ -27,10 +27,11 @@ import {ref} from 'vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import Course from "./components/Course"
 import About from "./components/About"
+import Exam from "@/components/Exam"
 
 export default {
     name: 'App',
-    components: {Course, About},
+    components: {Exam, Course, About},
     data() {
         return {
             locale: zhCN,

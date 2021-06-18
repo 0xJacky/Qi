@@ -1,11 +1,13 @@
 <template>
     <div>
-        <p>将教务系统内的课程表、考试安排（todo）解析为 ics 日历文件，您可以将 ics 日历文件导入 iOS、安卓系统的日历中</p>
+        <p>将教务系统内的课程表、考试安排解析为 ics 日历文件，您可以将 ics 日历文件导入 iOS、安卓系统的日历中</p>
         <p>Q: Apple 设备如何导入 ics 文件？</p>
         <p>A: 请参考 <a href="https://jackyu.cn/tech/apple-ics-import/" target="_blank">https://jackyu.cn/tech/apple-ics-import/</a></p>
         <p>Q: 项目介绍及 iOS 捷径</p>
         <p>A: 请参考 <a href="https://jackyu.cn/projects/qi/">https://jackyu.cn/projects/qi/</a></p>
+        <h3>技术栈</h3>
         <p>前端 Vue3 后端 Flask 环境 Docker</p>
+        <h3>项目组</h3>
         <p>全栈: 0xJacky</p>
         <p>项目地址：<a href="https://github.com/0xJacky/Qi">https://github.com/0xJacky/Qi</a></p>
         <p>公共测试阶段，bug 请联系 me@jackyu.cn</p>
