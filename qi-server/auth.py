@@ -1,5 +1,5 @@
 import requests
-from config import config
+
 
 # 登录
 
@@ -15,7 +15,7 @@ class Auth:
 
     session = requests.session()
 
-    def __init__(self, name = None, pwd = None):
+    def __init__(self, name=None, pwd=None):
         if name and pwd:
             self.get_cookie()
             self.login(name, pwd)
@@ -45,7 +45,7 @@ class Auth:
             'encoded': self.encode(name, pwd)
         }
 
-        r = self.session.post(self.host+url, headers=self.headers, data=data)
+        r = self.session.post(self.host + url, headers=self.headers, data=data)
         if '培养方案' in r.text:
             print('登录成功')
             return True

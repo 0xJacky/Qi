@@ -34,16 +34,21 @@ def course():
     request_body = request.json
 
     with tempfile.TemporaryDirectory() as output_dir:
-        file_path = \
-            course_handler(request_body['school_id'],
-                           request_body['password'],
-                           request_body['xnxqid'],
-                           request_body['start_date'],
-                           output_dir)
+        try:
+            file_path = \
+                course_handler(request_body['school_id'],
+                               request_body['password'],
+                               request_body['xnxqid'],
+                               request_body['start_date'],
+                               output_dir)
 
-        return {
-            "data": open(file_path).read()
-        }
+            return {
+                "data": open(file_path).read()
+            }
+        except Exception as e:
+            return {
+                "error": str(e)
+            }, 500
 
 
 @app.route("/exam", methods=['POST'])

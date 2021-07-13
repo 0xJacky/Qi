@@ -3,7 +3,7 @@ import re
 
 from bs4 import BeautifulSoup
 
-from auth import Auth
+from auth2 import Auth
 from holiday import Holiday
 from timetable import Timetable
 
@@ -13,24 +13,28 @@ holiday = Holiday()
 
 def course_handler(school_id, pwd, xnxqid, start_date, output_dir='.'):
     auth = Auth(school_id, pwd)
-    url = 'https://isea.sztu.edu.cn/jsxsd/xskb/xskb_list.do?xnxq01id=' + xnxqid
+
+    if not auth.ok:
+        raise Exception('登录失败，请检查用户名密码')
+
+    url = 'https://jwxt.sztu.edu.cn/jsxsd/xskb/xskb_list.do?xnxq01id=' + xnxqid
     start_date = start_date.split('-')
-    r = auth.session.get(url, timeout=2)
+    r = auth.get(url)
 
     soup = BeautifulSoup(r.text, features='html.parser')
 
-    tab = soup.findAll('table')[1]
+    tab = soup.findAll('table')[0]
 
     i = 0
 
     schedules = []
 
     for tr in tab.findAll('tr'):
-        if '--------' in tr.getText():
+        if tr.getText():
             day = 0
             for td in tr.findAll('td'):
                 # 过滤掉备注
-                if '--------' in td.getText():
+                if '节' in td.getText():
                     # print(td)
                     # 处理多节课占用同一时间段
                     td = str(td.find('div', class_='kbcontent')).replace('<br/>-----------<br/>',
@@ -44,7 +48,7 @@ def course_handler(school_id, pwd, xnxqid, start_date, output_dir='.'):
                     for course in courses:
                         # 课程名称
                         course_name = course.contents[0]
-                        # print(course_name)
+                        print(course_name)
                         # 周次
                         zc = course.find('font', title='周次(节次)').getText()
                         # fuck 1-18双周
@@ -53,6 +57,12 @@ def course_handler(school_id, pwd, xnxqid, start_date, output_dir='.'):
                             ds = 1
                         elif '双' in zc:
                             ds = 2
+
+                        # 节次
+                        zc = zc.replace('节', '')
+                        section = re.findall(r'[\[](.+?)[]]', zc)[0]
+
+                        zc = zc.split('[')[0]
                         # 去除中文 周次里的 1-18(周) 单 双
                         zc = re.sub('[\u4e00-\u9fa5]', '', zc).replace('()', '')
                         _s = []
@@ -62,7 +72,7 @@ def course_handler(school_id, pwd, xnxqid, start_date, output_dir='.'):
                             for s in zc:
                                 if '-' in s:
                                     w_range = s.split('-')
-                                    # print(w_range)
+                                    print(w_range)
                                     _s += list(range(int(w_range[0]), int(w_range[1]) + 1))
                                 else:
                                     _s.append(int(s))
@@ -94,10 +104,8 @@ def course_handler(school_id, pwd, xnxqid, start_date, output_dir='.'):
                         # 教室
                         classroom = course.find('font', title='教室').getText()
                         # print(classroom)
-                        # 节次
-                        section = re.findall(r'[\[](.+?)[]]', classroom)[0]
-                        # 从 428机房[01-02-03-04]节 取出教室
-                        classroom = classroom.split('[')[0]
+
+                        # 教室
                         if '-' in section:
                             section = section.split('-')
 

@@ -11,6 +11,8 @@
                 v-model:value="formState.xnxqid"
                 ref="select"
             >
+                <a-select-option value="2021-2022-1">2021-2022-1</a-select-option>
+                <a-select-option value="2020-2021-3">2020-2021-3</a-select-option>
                 <a-select-option value="2020-2021-2">2020-2021-2</a-select-option>
                 <a-select-option value="2020-2021-1">2020-2021-1</a-select-option>
             </a-select>
@@ -47,30 +49,26 @@ export default {
                 data[k] = this.formState[k]
             }
             data.start_date = data.start_date.format('YYYY-MM-DD')
-            this.$api.check_user(data).then(r => {
-                if (r.status) {
-                    this.$message.success("登陆成功")
-                    this.$message.info("正在解析")
-                    this.$api.get_course_ics(data).then(r => {
-                        this.$message.success("解析成功")
-                        const blob = new Blob(
-                            [r.data], { type: 'text/calendar;charset=utf-8' })
-                        const aEle = document.createElement('a');     // 创建a标签
-                        const href = window.URL.createObjectURL(blob);       // 创建下载的链接
-                        aEle.href = href;
-                        aEle.download = this.formState.xnxqid + '.ics'
-                        document.body.appendChild(aEle);
-                        aEle.click();
-                        document.body.removeChild(aEle)
-                        window.URL.revokeObjectURL(href)
-                    }).catch(r => {
-                        console.log(r)
-                        this.$message.error("解析失败")
-                    })
-                } else {
-                    this.$message.error("无法登陆 账号或密码错误")
-                }
+
+            this.$message.success("正在登陆", 15)
+            this.$message.info("受新版教务系统统一认证的影响，此过程将会持续1-10秒", 15)
+            this.$api.get_course_ics(data).then(r => {
+                this.$message.success("解析成功")
+                const blob = new Blob(
+                    [r.data], {type: 'text/calendar;charset=utf-8'})
+                const aEle = document.createElement('a');     // 创建a标签
+                const href = window.URL.createObjectURL(blob);       // 创建下载的链接
+                aEle.href = href;
+                aEle.download = this.formState.xnxqid + '.ics'
+                document.body.appendChild(aEle);
+                aEle.click();
+                document.body.removeChild(aEle)
+                window.URL.revokeObjectURL(href)
+            }).catch(r => {
+                console.log(r)
+                this.$message.error(r.error ? r.error : '解析失败，未知错误')
             })
+
         }
     }
 }

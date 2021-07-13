@@ -11,6 +11,8 @@
                 v-model:value="formState.xnxqid"
                 ref="select"
             >
+                <a-select-option value="2021-2022-1">2021-2022-1</a-select-option>
+                <a-select-option value="2020-2021-3">2020-2021-3</a-select-option>
                 <a-select-option value="2020-2021-2">2020-2021-2</a-select-option>
                 <a-select-option value="2020-2021-1">2020-2021-1</a-select-option>
             </a-select>
