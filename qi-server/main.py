@@ -33,6 +33,11 @@ def check_user():
 def course():
     request_body = request.json
 
+    if request_body['school_id'] == '' or request_body['password'] == '':
+        return {
+            "error": "请输入学号和密码"
+        }, 500
+
     with tempfile.TemporaryDirectory() as output_dir:
         try:
             file_path = \

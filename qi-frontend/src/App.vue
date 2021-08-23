@@ -11,7 +11,10 @@
             <a-tab-pane key="1" tab="考试安排">
                 <exam/>
             </a-tab-pane>
-            <a-tab-pane key="2" tab="关于">
+            <a-tab-pane key="2" tab="课表转置" disabled>
+                <Transposition/>
+            </a-tab-pane>
+            <a-tab-pane key="3" tab="关于">
                 <about/>
             </a-tab-pane>
         </a-tabs>
@@ -27,11 +30,12 @@ import {ref} from 'vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import Course from "./components/Course"
 import About from "./components/About"
-import Exam from "@/components/Exam"
+import Exam from "./components/Exam"
+import Transposition from "./components/Transposition";
 
 export default {
     name: 'App',
-    components: {Exam, Course, About},
+    components: {Transposition, Exam, Course, About},
     data() {
         return {
             locale: zhCN,

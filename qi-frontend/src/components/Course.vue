@@ -50,6 +50,11 @@ export default {
             }
             data.start_date = data.start_date.format('YYYY-MM-DD')
 
+            if (!(data.school_id && data.password)) {
+                this.$message.error("请输入用户名与密码")
+                return
+            }
+
             this.$message.success("正在登陆", 15)
             this.$message.info("受新版教务系统统一认证的影响，此过程将会持续1-10秒", 15)
             this.$api.get_course_ics(data).then(r => {

@@ -5,6 +5,11 @@ import requests
 import urllib3
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.alert import Alert
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 urllib3.disable_warnings()
 
@@ -24,36 +29,46 @@ class Auth:
     def __init__(self, username, password):
         start = datetime.datetime.now()
         chrome_options = Options()
-        chrome_options.add_argument('--headless')
+        # chrome_options.add_argument('--headless')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
         chrome_options.add_experimental_option("prefs", {"profile.managed_default_content_settings.images": 2})
         chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
         chrome_options.add_argument('--disable-gpu')
-
         driver = webdriver.Chrome(options=chrome_options)
 
-        driver.get('https://auth.sztu.edu.cn/idp/authcenter/ActionAuthChain?entityId=jiaowu')
+        try:
+            driver.get('https://auth.sztu.edu.cn/idp/authcenter/ActionAuthChain?entityId=jiaowu')
 
-        driver.find_element_by_name('j_username').send_keys(username)
-        driver.find_element_by_name('j_password').send_keys(password)
+            WebDriverWait(driver, 15).until(
+                EC.presence_of_element_located((By.ID, 'loginButton'))
+            )
 
-        driver.find_element_by_id('loginButton').click()
+            driver.find_element_by_name('j_username').send_keys(username)
+            driver.find_element_by_name('j_password').send_keys(password)
 
-        time.sleep(1)
+            driver.find_element_by_id('loginButton').click()
 
-        driver.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.jsp#')
+            time.sleep(1)
 
-        print(driver.get_cookies())
+            try:
+                Alert(driver).dismiss()
+            except Exception as e:
+                print(e)
 
-        cookies = driver.get_cookies()
+            driver.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.jsp#')
 
-        for cookie in cookies:
-            self.cookies[cookie['name']] = cookie['value']
+            print(driver.get_cookies())
 
-        self.ok = '培养管理' in driver.page_source
+            cookies = driver.get_cookies()
 
-        driver.quit()
+            for cookie in cookies:
+                self.cookies[cookie['name']] = cookie['value']
+
+            self.ok = '培养管理' in driver.page_source
+
+        finally:
+            driver.quit()
         print(self.cookies)
         end = datetime.datetime.now()
         print('login use', (end - start).microseconds, 'ms')

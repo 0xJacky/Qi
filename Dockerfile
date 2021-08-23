@@ -9,6 +9,6 @@ RUN cd /app && pip3 install -r requirements.txt
 RUN cd /app && pip3 install uwsgi
 RUN cd /app && chmod a+x start.sh
 EXPOSE 80
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/sites-available/default
 COPY ./qi-frontend/dist /usr/share/nginx/html
 CMD ["./start.sh"]
