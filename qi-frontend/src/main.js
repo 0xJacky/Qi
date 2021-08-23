@@ -13,12 +13,14 @@ import {
     Select
 } from 'ant-design-vue'
 
+import 'ant-design-vue/dist/antd.less'
+
 import api from "./api"
+import {store} from './lib/store'
 
 import VueGtag from "vue-gtag-next"
 
 const app = createApp(App)
-
 app.use(Button)
 app.config.globalProperties.$message = message
 app.use(DatePicker)
@@ -27,6 +29,7 @@ app.use(Input)
 app.use(ConfigProvider)
 app.use(Tabs)
 app.use(Select)
+app.use(store)
 
 app.config.globalProperties.$http = http
 app.config.globalProperties.$api = api
@@ -39,3 +42,5 @@ app.use(VueGtag, {
 })
 
 app.mount('#app')
+
+export default app

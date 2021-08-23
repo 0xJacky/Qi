@@ -11,8 +11,8 @@ timetable = Timetable()
 holiday = Holiday()
 
 
-def course_handler(school_id, pwd, xnxqid, start_date, output_dir='.'):
-    auth = Auth(school_id, pwd)
+def course_handler(cookies, xnxqid, start_date, output_dir='.'):
+    auth = Auth(cookies)
 
     if not auth.ok:
         raise Exception('登录失败，请检查用户名密码')

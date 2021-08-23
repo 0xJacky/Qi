@@ -3,13 +3,17 @@ from bs4 import BeautifulSoup
 from auth import Auth
 
 
-def exam_handler(school_id, pwd, xnxqid, output_dir='.'):
-    auth = Auth(school_id, pwd)
-    url = 'https://isea.sztu.edu.cn/jsxsd/xsks/xsksap_list'
+def exam_handler(cookies, xnxqid, output_dir='.'):
+    auth = Auth(cookies)
+    url = 'https://jwxt.sztu.edu.cn/jsxsd/xsks/xsksap_list'
     r = auth.session.post(url, timeout=2, data={'xnxqid': xnxqid})
 
     soup = BeautifulSoup(r.text, features='html.parser')
-    tab = soup.findAll('table')[1]
+    tables = soup.findAll('table')
+    if len(tables) < 2:
+        raise Exception('未查询到考试安排')
+
+    tab = tables[1]
     schedules = []
     for tr in tab.findAll('tr'):
         if tr.findAll('td'):

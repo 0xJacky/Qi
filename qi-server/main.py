@@ -4,7 +4,7 @@ import tempfile
 
 from flask import Flask, request
 
-from auth import Auth
+from auth2 import Auth
 from course import course_handler
 from exam import exam_handler
 
@@ -20,12 +20,28 @@ def homepage():
     }
 
 
+@app.route("/login", methods=['POST'])
+def login():
+    request_body = request.json
+    auth = Auth()
+    cookies, ok = auth.login(request_body['school_id'], request_body['password'])
+    if ok:
+        return {
+            "cookies": cookies
+        }
+    else:
+        return {
+                   "error": "登录失败，学号或密码错误",
+               }, 403
+
+
 @app.route("/check_user", methods=['POST'])
 def check_user():
     request_body = request.json
-    auth = Auth()
+    auth = Auth(request_body['cookies'])
+    auth.check_login()
     return {
-        "status": auth.login(request_body['school_id'], request_body['password'])
+        "success": auth.ok
     }
 
 
@@ -33,16 +49,10 @@ def check_user():
 def course():
     request_body = request.json
 
-    if request_body['school_id'] == '' or request_body['password'] == '':
-        return {
-            "error": "请输入学号和密码"
-        }, 500
-
     with tempfile.TemporaryDirectory() as output_dir:
         try:
             file_path = \
-                course_handler(request_body['school_id'],
-                               request_body['password'],
+                course_handler(request_body['cookies'],
                                request_body['xnxqid'],
                                request_body['start_date'],
                                output_dir)
@@ -52,8 +62,8 @@ def course():
             }
         except Exception as e:
             return {
-                "error": str(e)
-            }, 500
+                       "error": str(e)
+                   }, 500
 
 
 @app.route("/exam", methods=['POST'])
@@ -61,12 +71,16 @@ def exam():
     request_body = request.json
 
     with tempfile.TemporaryDirectory() as output_dir:
-        file_path = \
-            exam_handler(request_body['school_id'],
-                         request_body['password'],
-                         request_body['xnxqid'],
-                         output_dir)
+        try:
+            file_path = \
+                exam_handler(request_body['cookies'],
+                             request_body['xnxqid'],
+                             output_dir)
 
-        return {
-            "data": open(file_path).read()
-        }
+            return {
+                "data": open(file_path).read()
+            }
+        except Exception as e:
+            return {
+                       "error": str(e)
+                   }, 500

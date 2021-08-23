@@ -6,10 +6,9 @@ import urllib3
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.alert import Alert
-
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 urllib3.disable_warnings()
 
@@ -26,10 +25,15 @@ class Auth:
 
     cookies = {}
 
-    def __init__(self, username, password):
+    def __init__(self, cookies=None):
+        if cookies is not None:
+            self.cookies = cookies
+            self.check_login()
+
+    def login(self, username, password):
         start = datetime.datetime.now()
         chrome_options = Options()
-        # chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--headless')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
         chrome_options.add_experimental_option("prefs", {"profile.managed_default_content_settings.images": 2})
@@ -65,13 +69,20 @@ class Auth:
             for cookie in cookies:
                 self.cookies[cookie['name']] = cookie['value']
 
-            self.ok = '培养管理' in driver.page_source
+            # 改 self.ok 标志位
+            self.check_login()
 
         finally:
             driver.quit()
+
         print(self.cookies)
         end = datetime.datetime.now()
-        print('login use', (end - start).microseconds, 'ms')
+        print('登录用时', (end - start).microseconds, 'ms')
+        return self.cookies, self.ok
+
+    def check_login(self):
+        r = self.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain_new.jsp?t1=1')
+        self.ok = '教学进程' in r.text
 
     def get(self, url):
         return requests.get(url, headers=self.headers, timeout=2, cookies=self.cookies, verify=False)

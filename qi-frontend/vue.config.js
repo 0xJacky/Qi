@@ -27,7 +27,12 @@ module.exports = {
         loaderOptions: {
             css: {},
             less: {
-                javascriptEnabled: true
+                lessOptions: {
+                    modifyVars: {
+                        'border-radius-base': '4px',
+                    },
+                    javascriptEnabled: true,
+                },
             }
         },
         extract: false
