@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {store} from '@/lib/store'
 
 /* 创建 axios 实例 */
 let http = axios.create({
@@ -18,6 +19,9 @@ let http = axios.create({
 /* http request 拦截器 */
 http.interceptors.request.use(
     config => {
+        if (store.getters.cookies) {
+            config.headers['Q-COOKIES'] = JSON.stringify(store.getters.cookies)
+        }
         return config
     },
     err => {

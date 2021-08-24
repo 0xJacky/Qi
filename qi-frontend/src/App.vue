@@ -5,51 +5,64 @@
             <h2>教务系统工具</h2>
         </div>
         <login/>
-        <transition name="fade">
-            <a-tabs v-model:activeKey="activeKey"  v-if="user.school_id">
-                <a-tab-pane key="0" tab="课程表">
-                    <course/>
-                </a-tab-pane>
-                <a-tab-pane key="1" tab="考试安排">
-                    <exam/>
-                </a-tab-pane>
-                <a-tab-pane key="2" tab="课表转置" disabled>
-                    <Transposition/>
-                </a-tab-pane>
-                <a-tab-pane key="3" tab="关于">
-                    <about/>
-                </a-tab-pane>
-            </a-tabs>
-        </transition>
+        <template v-if="user.school_id&&!login_lock">
+            <a-menu v-model:selectedKeys="current" mode="horizontal">
+                <a-menu-item v-for="r in routes" :key="r.path">
+                    <router-link :to="r.path">
+                        {{ r.name }}
+                    </router-link>
+                </a-menu-item>
+            </a-menu>
+            <div class="container">
+                <router-view v-slot="{ Component }">
+                    <transition name="fade">
+                        <component :is="Component"/>
+                    </transition>
+                </router-view>
+            </div>
+        </template>
+        <loading :loading="login_lock" text="登录中，受新版教务系统影响此过程将会持续3-10s"/>
         <footer>
-            Copyright © 2020 - {{ thisYear }} 余圳曦
+            Copyright © 2020 - {{ thisYear }} 余圳曦<br/>
+            版本 {{ version }} ({{ build }})
         </footer>
     </a-config-provider>
 </template>
 
 
 <script>
-import {ref} from 'vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import Course from "./components/Course"
-import About from "./components/About"
-import Exam from "./components/Exam"
-import Transposition from "./components/Transposition"
 import Login from "@/components/Login"
+import {routes} from "@/routes"
+import Loading from "@/components/Loading"
 
 export default {
     name: 'App',
-    components: {Login, Transposition, Exam, Course, About},
+    components: {Loading, Login},
     data() {
         return {
             locale: zhCN,
-            activeKey: ref('0'),
+            routes,
+            version: process.env.VUE_APP_VERSION,
+            build: process.env.VUE_APP_BUILD_ID ?? '开发模式',
+            current: [this.$route.path],
             thisYear: new Date().getFullYear()
+        }
+    },
+    created() {
+        this.$store.dispatch('login_unlock')
+    },
+    watch: {
+        '$route'() {
+            this.current = [this.$route.path]
         }
     },
     computed: {
         user() {
             return this.$store.getters.user
+        },
+        login_lock() {
+            return this.$store.getters.login_lock
         }
     }
 }
@@ -65,6 +78,10 @@ export default {
     @border-radius-base: 2px;
 }
 
+body {
+    position: relative;
+}
+
 #app {
     font-family: "PingFang SC", Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -72,6 +89,7 @@ export default {
     text-align: center;
     color: #2c3e50;
     margin: 0 auto;
+    width: 80%;
     max-width: 500px;
 }
 
@@ -91,9 +109,13 @@ export default {
     }
 }
 
+.container {
+    padding: 20px 5px;
+}
+
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s ease;
+    transition: opacity 0.2s ease;
 }
 
 .fade-enter-from,

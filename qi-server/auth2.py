@@ -86,3 +86,6 @@ class Auth:
 
     def get(self, url):
         return requests.get(url, headers=self.headers, timeout=2, cookies=self.cookies, verify=False)
+
+    def post(self, url, data):
+        return requests.post(url, headers=self.headers, timeout=2, cookies=self.cookies, verify=False, data=data)

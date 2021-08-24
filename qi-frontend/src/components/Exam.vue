@@ -5,10 +5,10 @@
                 v-model:value="formState.xnxqid"
                 ref="select"
             >
-                <a-select-option value="2021-2022-1">2021-2022-1</a-select-option>
-                <a-select-option value="2020-2021-3">2020-2021-3</a-select-option>
-                <a-select-option value="2020-2021-2">2020-2021-2</a-select-option>
-                <a-select-option value="2020-2021-1">2020-2021-1</a-select-option>
+                <a-select-option
+                    v-for="s in semesters" :value="s" :key="s">
+                    {{ s }}
+                </a-select-option>
             </a-select>
         </a-form-item>
         <a-button @click="get_exam_ics" type="primary">获取考试安排</a-button>
@@ -20,22 +20,39 @@ export default {
     name: "Exam",
     data() {
         return {
+            semesters: [],
             formState: {
-                xnxqid: '2020-2021-2',
+                xnxqid: '2021-2022-1',
             },
         }
     },
+    created() {
+        if (this.$route.query) {
+            this.formState = Object.assign(this.formState, this.$route.query)
+        }
+        this.get_semesters()
+    },
+    watch: {
+        formState: {
+            handler() {
+                this.$router.push({
+                    query: this.formState
+                })
+            },
+            deep: true
+        }
+    },
     methods: {
-        async get_exam_ics() {
-            let data = {}
-            for (let k in this.formState) {
-                data[k] = this.formState[k]
-            }
-            this.$message.info("正在检查登录状态")
-            await this.$api.check_user({cookies: this.$store.getters.cookies}).then(async r => {
-                if (r['success']) {
-                    this.$message.success("登陆成功")
-                } else {
+        async get_semesters() {
+            await this.check_user()
+            this.$api.get_semesters().then(r => {
+                this.formState.xnxqid = r.current
+                this.semesters = r.semesters
+            })
+        },
+        async check_user() {
+            await this.$api.check_user(this.cookies).then(async r => {
+                if (!r['success']) {
                     this.$message.info('Cookies 已过期，正在尝试重新登录', 10)
                     await this.$api.login(this.$store.getters.user).then(() => {
                         this.$message.success('登录成功')
@@ -44,7 +61,13 @@ export default {
                     })
                 }
             })
-
+        },
+        async get_exam_ics() {
+            let data = {}
+            for (let k in this.formState) {
+                data[k] = this.formState[k]
+            }
+            await this.check_user()
             this.$message.info("正在解析")
             this.$api.get_exam_ics(data).then(r => {
                 this.$message.success("解析成功")

@@ -1,6 +1,7 @@
 import {createApp} from 'vue'
 import App from './App.vue'
 import http from "./lib/http"
+import {createRouter, createWebHistory} from "vue-router";
 
 import {
     Button,
@@ -9,8 +10,10 @@ import {
     Form,
     Input,
     ConfigProvider,
-    Tabs,
-    Select
+    Menu,
+    Select,
+    Spin,
+    Icon
 } from 'ant-design-vue'
 
 import 'ant-design-vue/dist/antd.less'
@@ -27,8 +30,10 @@ app.use(DatePicker)
 app.use(Form)
 app.use(Input)
 app.use(ConfigProvider)
-app.use(Tabs)
+app.use(Menu)
 app.use(Select)
+app.use(Spin)
+app.use(Icon)
 app.use(store)
 
 app.config.globalProperties.$http = http
@@ -41,6 +46,15 @@ app.use(VueGtag, {
     isEnabled: process.env.NODE_ENV === 'production'
 })
 
+import {routes} from "@/routes"
+const router = createRouter({
+    history: createWebHistory(),
+    routes: routes
+})
+
+app.use(router)
+
 app.mount('#app')
+
 
 export default app

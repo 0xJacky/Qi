@@ -3,9 +3,13 @@ export const user = {
     state: {
         school_id: null,
         password: null,
-        cookies: null
+        cookies: null,
+        login_lock: false,
     },
     mutations: {
+        async lock(state, status) {
+            state.login_lock = status
+        },
         async login(state, payload) {
             state = Object.assign(state, payload)
         },
@@ -14,12 +18,19 @@ export const user = {
             state.school_id = null
             state.password = null
             state.cookies = null
+            state.login_lock = false
         },
         update_user(state, payload) {
             state = Object.assign(state, payload)
         },
     },
     actions: {
+        async login_lock({commit}) {
+            commit('lock', true)
+        },
+        async login_unlock({commit}) {
+            commit('lock', false)
+        },
         async login({commit}, data) {
             commit('login', data)
         },
@@ -31,6 +42,9 @@ export const user = {
         },
     },
     getters: {
+        login_lock(state) {
+            return state.login_lock
+        },
         user(state) {
             return {
                 school_id: state.school_id,

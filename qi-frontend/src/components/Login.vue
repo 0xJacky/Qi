@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="login">
         <transition name="fade">
             <a-form layout="vertical" class="login-form" :model="formState" v-if="!user.school_id">
                 <a-form-item label="学号">
@@ -8,7 +8,7 @@
                 <a-form-item label="密码">
                     <a-input type="password" v-model:value="formState.password"/>
                 </a-form-item>
-                <a-button type="primary" @click="login">登陆</a-button>
+                <a-button type="primary" @click="login" :loading="login_lock">登陆</a-button>
             </a-form>
             <div v-else>
                 <p>当前用户: {{ user.school_id }}</p>
@@ -43,18 +43,25 @@ export default {
             })
         },
         async logout() {
-            this.$store.commit('logout')
+            this.$store.dispatch('logout')
         }
     },
     computed: {
         user() {
             return this.$store.getters.user
+        },
+        login_lock() {
+            return this.$store.getters.login_lock
         }
     }
 }
 </script>
 
 <style lang="less" scoped>
+.login {
+    padding-bottom: 15px;
+}
+
 .login-form {
     margin: 0 auto;
     max-width: 300px;
@@ -62,11 +69,11 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
 </style>

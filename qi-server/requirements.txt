@@ -1,4 +1,6 @@
-Flask==1.1.2
-requests==2.25.1
+requests==2.26.0
+urllib3==1.26.6
 beautifulsoup4==4.9.3
-configparser==5.0.2
+Flask==2.0.1
+selenium==3.141.0
+xlsxwriter==3.0.1
