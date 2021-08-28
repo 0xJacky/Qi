@@ -92,7 +92,7 @@ def transposition(cookies, output, xnxq, college_id, grade, major_id):
             e.write(j, 0, section[j].text, workfomat)
 
         # 具体课程
-        for j in range(1, len(td)):
+        for j in range(1, len(td)-1):
             course_info = td[j].findAll('div', class_='kbcontent1')
             if len(course_info) > 0:
                 course_info = str(course_info[0]).replace('<div class="kbcontent1" id="">', '')

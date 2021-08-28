@@ -5,6 +5,7 @@ COPY ./qi-server .
 RUN echo "installing nginx"
 RUN cd /app && apt-get update -y && apt install nginx -y
 RUN echo "installing Qi server requirement"
+RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 RUN cd /app && pip3 install -r requirements.txt
 RUN cd /app && pip3 install uwsgi
 RUN cd /app && chmod a+x start.sh
