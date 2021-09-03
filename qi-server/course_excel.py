@@ -123,6 +123,13 @@ def course_excel_handler(cookies, xnxqid, start_date, output_dir='.'):
                 print('第%s节,周%s %s' % (i - 2, j, value))
             print()
 
+    # 去重
+    _schedules = []
+    for item in schedules:
+        if item not in _schedules:
+            _schedules.append(item)
+    schedules = _schedules
+
     print(schedules)
 
     # 创建 ics
@@ -157,7 +164,7 @@ DTEND;TZID="UTC+08:00";VALUE=DATE-TIME:%sT%s
 LOCATION:%s
 END:VEVENT
 
-    ''' % (course['name'], day, hour[0], day, hour[1], course['location'])
+''' % (course['name'], day, hour[0], day, hour[1], course['location'])
 
     print(message)
     f.write(message)
