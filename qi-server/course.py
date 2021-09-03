@@ -150,12 +150,14 @@ def course_handler(cookies, xnxqid, start_date, output_dir='.'):
     f = open(ics, 'w', encoding='utf-8')
     f.write(u'BEGIN:VCALENDAR\nVERSION:2.0\n')
     for course in schedules:
-        date = datetime.datetime(int(start_date[0]), int(start_date[1]), int(start_date[2]))
+        start = datetime.datetime(int(start_date[0]), int(start_date[1]), int(start_date[2]))
+        date = start - datetime.timedelta(start.weekday())
         hour = timetable.translate(course['section_index'])
 
         for w in course['week']:
             day = (date + datetime.timedelta(days=course['day'] + 7 * (int(w) - 1)))
-
+            if day < start:
+                continue
             # 处理假期及补课
             if holiday.is_holiday(day.strftime('%Y-%m-%d')):
                 m = holiday.makeup(day.strftime('%Y-%m-%d'))

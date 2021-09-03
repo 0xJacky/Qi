@@ -7,7 +7,7 @@ import flask
 from flask import Flask, request
 
 from auth2 import Auth
-from course import course_handler
+from course_excel import course_excel_handler
 from exam import exam_handler
 from semester import get_semester
 from transposition import get_college_and_grade_list, get_major_list, transposition
@@ -77,10 +77,10 @@ def course():
     with tempfile.TemporaryDirectory() as output_dir:
         try:
             file_path = \
-                course_handler(cookies,
-                               request_body['xnxqid'],
-                               request_body['start_date'],
-                               output_dir)
+                course_excel_handler(cookies,
+                                     request_body['xnxqid'],
+                                     request_body['start_date'],
+                                     output_dir)
 
             return {
                 "data": open(file_path).read()

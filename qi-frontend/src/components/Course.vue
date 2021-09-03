@@ -1,24 +1,27 @@
 <template>
-    <a-form :model="formState">
-        <a-form-item label="学年学期">
-            <a-select
-                v-model:value="formState.xnxqid"
-                ref="select"
-            >
-                <a-select-option
-                    v-for="s in semesters" :value="s" :key="s">
-                    {{ s }}
-                </a-select-option>
-            </a-select>
-        </a-form-item>
-        <a-form-item label="学期开始">
-            <a-date-picker
-                v-model:value="formState.start_date"
-                type="date"
-            />
-        </a-form-item>
-        <a-button @click="get_course_ics" type="primary">获取课表</a-button>
-    </a-form>
+    <div>
+        <p>将课表解析成 ics 日历文件格式，可以导入 iOS、PC、安卓日历中。</p>
+        <a-form :model="formState">
+            <a-form-item label="学年学期">
+                <a-select
+                    v-model:value="formState.xnxqid"
+                    ref="select"
+                >
+                    <a-select-option
+                        v-for="s in semesters" :value="s" :key="s">
+                        {{ s }}
+                    </a-select-option>
+                </a-select>
+            </a-form-item>
+            <a-form-item label="学期开始">
+                <a-date-picker
+                    v-model:value="formState.start_date"
+                    type="date"
+                />
+            </a-form-item>
+            <a-button @click="get_course_ics" type="primary">获取课表</a-button>
+        </a-form>
+    </div>
 </template>
 
 <script>
@@ -34,14 +37,14 @@ export default {
             semesters: ['2021-2022-1'],
             formState: {
                 xnxqid: '2021-2022-1',
-                start_date: moment('2021-09-01', 'YYYY-MM-DD')
+                start_date: moment('2021-09-02', 'YYYY-MM-DD')
             },
         }
     },
     created() {
         if (this.$route.query) {
             this.formState.xnxqid = this.$route.query.xnxqid
-            this.formState.start_date = moment(this.$route.query.start_date??'2021-09-01', 'YYYY-MM-DD')
+            this.formState.start_date = moment(this.$route.query.start_date ?? '2021-09-02', 'YYYY-MM-DD')
         }
         this.get_semesters()
     },

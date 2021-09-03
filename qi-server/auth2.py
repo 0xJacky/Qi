@@ -87,5 +87,11 @@ class Auth:
     def get(self, url):
         return requests.get(url, headers=self.headers, timeout=2, cookies=self.cookies, verify=False)
 
+    def get_excel(self, url):
+        headers = self.headers
+        headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,' \
+                            'image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+        return requests.get(url, headers=headers, timeout=2, cookies=self.cookies, verify=False)
+
     def post(self, url, data):
         return requests.post(url, headers=self.headers, timeout=2, cookies=self.cookies, verify=False, data=data)

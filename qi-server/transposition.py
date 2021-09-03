@@ -36,7 +36,7 @@ def get_major_list(cookies, college_id, grade):
     r = json.loads(r.text)
     res = {}
     for m in r:
-        res[m['dm']] = m['dmmc']
+        res[m['dm']] = m['dm_mc']
     return res
 
 
