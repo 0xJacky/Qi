@@ -25,6 +25,7 @@ def handle_zc(zc):
     # 节次
     zc = zc.replace('节', '')
     zc = zc.replace('([周])', '(周)')
+    print(zc)
     section = re.findall(r'[\[](.+?)[]]', zc)[0]
 
     zc = zc.split('[')[0]
@@ -111,12 +112,19 @@ def course_excel_handler(cookies, xnxqid, start_date, output_dir='.'):
                     value[k] = value[k].split('\n')
                     if value[k][0] == '':
                         continue
-                    zc, section = handle_zc(value[k][3])
+
+                    # 汽车课表: [['智能汽车标定技术', '王永辉', '1-18([周])[09-10-11节]', 'C-5-219']]
+                    if str(value[k][2]).find('([周])') > 0 and str(value[k][2]).find('节') > 0:
+                        _index = 2
+                    else:
+                        _index = 3
+                    print(value[k][_index])
+                    zc, section = handle_zc(value[k][_index])
                     tmp = {
                         'name': value[k][0],
                         'week': zc,
                         'section_index': section,
-                        'location': value[k][4],
+                        'location': value[k][_index+1],
                         'day': j - 1,
                     }
                     schedules.append(tmp)
@@ -175,5 +183,5 @@ END:VEVENT
     return ics
 
 
-# cookies = {"JSESSIONID": "FB36FC3571402865C5E4EFC2846B6831", "SERVERID": "122"}
-# course_excel_handler(cookies, '2021-2022-1', '2021-09-02', '.')
+#cookies = {"JSESSIONID":"46E9219C9A0337672FDDFE2212E7EB2A","SERVERID":"122"}
+#course_excel_handler(cookies, '2021-2022-1', '2021-09-02', '.')
