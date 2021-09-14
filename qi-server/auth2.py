@@ -40,6 +40,7 @@ class Auth:
         chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
         chrome_options.add_argument('--disable-gpu')
         driver = webdriver.Chrome(options=chrome_options)
+        driver.delete_all_cookies()
         driver.get('https://auth.sztu.edu.cn/idp/authcenter/ActionAuthChain?entityId=jiaowu')
 
         try:
@@ -59,7 +60,10 @@ class Auth:
             except Exception as e:
                 print(e)
 
-            # driver.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.jsp#')
+            driver.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain_new.jsp?t1=1')
+            sleep(1)
+
+            self.ok = '教学进程' in driver.page_source
 
             print(driver.get_cookies())
 
@@ -67,9 +71,6 @@ class Auth:
 
             for cookie in cookies:
                 self.cookies[cookie['name']] = cookie['value']
-
-            # 改 self.ok 标志位
-            self.check_login()
 
         finally:
             driver.quit()
