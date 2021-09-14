@@ -8565,10 +8565,10 @@ vm-browserify@^1.0.1:
   resolved "https://registry.npm.taobao.org/vm-browserify/download/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha1-eGQcSIuObKkadfUR56OzKobl3aA=
 
-vue-cli-plugin-generate-build-id@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/vue-cli-plugin-generate-build-id/-/vue-cli-plugin-generate-build-id-0.1.0.tgz#164108d3e7ba72041965dbd530c2c30efb6ce09f"
-  integrity sha512-IfL5LiQXt4pP4f6X7peOhHawtU8tD2DaKO+a9Qz1XZdehmTkwsc+k0ZWhtj5Dn5WA686DQys1XlxYleRf42ZdQ==
+vue-cli-plugin-generate-build-id@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/vue-cli-plugin-generate-build-id/-/vue-cli-plugin-generate-build-id-0.2.0.tgz#2cefdbb6c426a7a59352f177b1abff3509344729"
+  integrity sha512-+9RQHeg8cTIeCaoybaM4QU3oL/MN4BFqm6m7fUSXHUe1uTwCuhpJjMoDaIX8Q9iT1CPCyyFIw4Kvz/MUiBboNw==
 
 vue-eslint-parser@^7.5.0:
   version "7.5.0"

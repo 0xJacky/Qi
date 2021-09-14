@@ -10,3 +10,5 @@ yarn build
 echo "building docker image"
 cd .. || exit
 docker build -t qi .
+docker tag qi uozi/qi
+docker tag qi registry.cn-shenzhen.aliyuncs.com/uozi/qi

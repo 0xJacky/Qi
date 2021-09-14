@@ -1,5 +1,5 @@
 import datetime
-import time
+from time import sleep
 
 import requests
 import urllib3
@@ -40,11 +40,10 @@ class Auth:
         chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
         chrome_options.add_argument('--disable-gpu')
         driver = webdriver.Chrome(options=chrome_options)
+        driver.get('https://auth.sztu.edu.cn/idp/authcenter/ActionAuthChain?entityId=jiaowu')
 
         try:
-            driver.get('https://auth.sztu.edu.cn/idp/authcenter/ActionAuthChain?entityId=jiaowu')
-
-            WebDriverWait(driver, 15).until(
+            WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.ID, 'loginButton'))
             )
 
@@ -53,14 +52,14 @@ class Auth:
 
             driver.find_element_by_id('loginButton').click()
 
-            time.sleep(1)
+            sleep(1)
 
             try:
                 Alert(driver).dismiss()
             except Exception as e:
                 print(e)
 
-            driver.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.jsp#')
+            # driver.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.jsp#')
 
             print(driver.get_cookies())
 

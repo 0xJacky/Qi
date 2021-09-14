@@ -21,7 +21,7 @@
                 </router-view>
             </div>
         </template>
-        <loading :loading="login_lock" text="登录中，受新版教务系统影响此过程将会持续3-10s"/>
+        <loading :loading="login_lock" text="请稍等，新版教务系统认证需要 3-10s"/>
         <footer>
             Copyright © 2020 - {{ thisYear }} 余圳曦<br/>
             版本 {{ version }} ({{ build }})

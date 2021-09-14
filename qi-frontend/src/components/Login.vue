@@ -35,7 +35,6 @@ export default {
                 this.$message.error("请输入用户名与密码")
                 return
             }
-            this.$message.info("受新版教务系统统一认证的影响，此过程将会持续1-10秒", 10)
             this.$api.login(this.formState).then(() => {
                 this.$message.success('登录成功')
             }).catch(e => {
