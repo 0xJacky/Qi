@@ -23,7 +23,7 @@ class Holiday:
     # 生成节假日
     _holiday = []
 
-    # 补课
+    # 补课安排
     _makeup = {
         # {补课日期} 补 {放假日期} 的课程
         #  放假日期       补课日期
@@ -36,6 +36,9 @@ class Holiday:
         '2021-10-07': '2021-10-09'
     }
 
+    # 补课日
+    _makeup_days = []
+
     def __init__(self):
         for i in self.holiday:
             i = i.split(',')
@@ -45,9 +48,15 @@ class Holiday:
                     (datetime.datetime(int(j[0]), int(j[1]), int(j[2]))
                      + datetime.timedelta(days=float(k))).strftime('%Y-%m-%d')
                 ]
+        # 获取补课的日期列表
+        for i in self._makeup.values():
+            self._makeup_days.append(i)
 
     def is_holiday(self, date):
         return date in self._holiday
+
+    def is_markup_day(self, date):
+        return date in self._makeup_days
 
     def makeup(self, date):
         if date in self._makeup:

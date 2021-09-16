@@ -124,12 +124,13 @@ def course_excel_handler(cookies, xnxqid, start_date, output_dir='.'):
                         'name': value[k][0],
                         'week': zc,
                         'section_index': section,
-                        'location': value[k][_index+1],
+                        'location': value[k][_index + 1],
+                        'description': value[k][_index - 1],
                         'day': j - 1,
                     }
                     schedules.append(tmp)
                 print('第%s节,周%s %s' % (i - 2, j, value))
-            print()
+            print()  # 只是一个简单的换行
 
     # 去重
     _schedules = []
@@ -154,6 +155,9 @@ def course_excel_handler(cookies, xnxqid, start_date, output_dir='.'):
             day = (date + datetime.timedelta(days=course['day'] + 7 * (int(w) - 1)))
             if day < start:
                 continue
+            # 如本来周六有课，但是被假期的补课冲掉了
+            if holiday.is_markup_day(date.strftime('%Y-%m-%d')):
+                continue
             # 处理假期及补课
             if holiday.is_holiday(day.strftime('%Y-%m-%d')):
                 m = holiday.makeup(day.strftime('%Y-%m-%d'))
@@ -170,9 +174,9 @@ SUMMARY:%s
 DTSTART;TZID="UTC+08:00";VALUE=DATE-TIME:%sT%s
 DTEND;TZID="UTC+08:00";VALUE=DATE-TIME:%sT%s
 LOCATION:%s
+DESCRIPTION:%s
 END:VEVENT
-
-''' % (course['name'], day, hour[0], day, hour[1], course['location'])
+''' % (course['name'], day, hour[0], day, hour[1], course['location'], course['description'])
 
     print(message)
     f.write(message)
@@ -183,5 +187,5 @@ END:VEVENT
     return ics
 
 
-#cookies = {"JSESSIONID":"46E9219C9A0337672FDDFE2212E7EB2A","SERVERID":"122"}
-#course_excel_handler(cookies, '2021-2022-1', '2021-09-02', '.')
+cookies = {"JSESSIONID": "B282B89EB12DFB225742F23F1D1A31CC", "SERVERID": "122"}
+course_excel_handler(cookies, '2021-2022-1', '2021-09-02', '.')

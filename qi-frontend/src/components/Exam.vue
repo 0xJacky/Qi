@@ -53,7 +53,6 @@ export default {
         async check_user() {
             await this.$api.check_user(this.cookies).then(async r => {
                 if (!r['success']) {
-                    this.$message.info('Cookies 已过期，正在尝试重新登录', 10)
                     await this.$api.login(this.$store.getters.user).then(() => {
                         this.$message.success('登录成功')
                     }).catch(e => {
