@@ -1,5 +1,5 @@
 # Qi
-Version: 1.3.1
+Version: 1.3.2
 
 我校强智教务系统课表转 ics 日历文件
 

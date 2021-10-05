@@ -6,7 +6,7 @@
                     <a-input v-model:value="formState.school_id"/>
                 </a-form-item>
                 <a-form-item label="密码">
-                    <a-input type="password" v-model:value="formState.password"/>
+                    <a-input-password v-model:value="formState.password"/>
                 </a-form-item>
                 <a-button type="primary" @click="login" :loading="login_lock">登陆</a-button>
             </a-form>

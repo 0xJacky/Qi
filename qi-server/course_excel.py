@@ -187,5 +187,6 @@ END:VEVENT
     return ics
 
 
-cookies = {"JSESSIONID": "B282B89EB12DFB225742F23F1D1A31CC", "SERVERID": "122"}
-course_excel_handler(cookies, '2021-2022-1', '2021-09-02', '.')
+if __name__ == '__main__':
+    cookies = {"JSESSIONID": "B282B89EB12DFB225742F23F1D1A31CC", "SERVERID": "122"}
+    course_excel_handler(cookies, '2021-2022-1', '2021-09-02', '.')

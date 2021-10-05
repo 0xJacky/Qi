@@ -5,7 +5,7 @@
             <h2>教务系统工具</h2>
         </div>
         <login/>
-        <template v-if="user.school_id&&!login_lock">
+        <div v-show="user.school_id&&!login_lock">
             <a-menu v-model:selectedKeys="current" mode="horizontal">
                 <a-menu-item v-for="r in routes" :key="r.path">
                     <router-link :to="r.path">
@@ -20,7 +20,7 @@
                     </transition>
                 </router-view>
             </div>
-        </template>
+        </div>
         <loading :loading="login_lock" text="请稍等，新版教务系统认证需要 3-10s"/>
         <footer>
             Copyright © 2020 - {{ thisYear }} 余圳曦<br/>

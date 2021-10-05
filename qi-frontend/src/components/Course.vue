@@ -39,6 +39,7 @@ export default {
                 xnxqid: '2021-2022-1',
                 start_date: moment('2021-09-02', 'YYYY-MM-DD')
             },
+            retry: 0,
         }
     },
     created() {
@@ -60,8 +61,8 @@ export default {
     },
     methods: {
         async get_semesters() {
-            await this.check_user(this.cookies)
-            this.$api.get_semesters(this.cookies).then(r => {
+            await this.check_user()
+            this.$api.get_semesters().then(r => {
                 this.formState.xnxqid = r.current
                 this.semesters = r.semesters
             })

@@ -5,6 +5,7 @@ export const user = {
         password: null,
         cookies: null,
         login_lock: false,
+        retry: 0,
     },
     mutations: {
         async lock(state, status) {
