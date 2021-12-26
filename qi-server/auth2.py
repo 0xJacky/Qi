@@ -17,7 +17,7 @@ class Auth:
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
                       'AppleWebKit/537.36 (KHTML, like Gecko) '
-                      'Chrome/91.0.4472.114 Safari/537.36',
+                      'Chrome/96.0.4664.110 Safari/537.36',
         'Host': 'jwxt.sztu.edu.cn'
     }
 

@@ -1,35 +1,36 @@
 from bs4 import BeautifulSoup
 
-from auth import Auth
+from auth2 import Auth
 
 
 def exam_handler(cookies, xnxqid, output_dir='.'):
     auth = Auth(cookies)
     url = 'https://jwxt.sztu.edu.cn/jsxsd/xsks/xsksap_list'
-    r = auth.session.post(url, timeout=2, data={'xnxqid': xnxqid})
+    r = auth.post(url, data={'xnxqid': xnxqid})
+    print(r.text)
 
     soup = BeautifulSoup(r.text, features='html.parser')
     tables = soup.findAll('table')
-    if len(tables) < 2:
+    if len(tables) < 1:
         raise Exception('未查询到考试安排')
 
-    tab = tables[1]
+    tab = tables[0]
     schedules = []
     for tr in tab.findAll('tr'):
         if tr.findAll('td'):
             exam = tr.findAll('td')
-            origDayTimeText = exam[4].getText().split(' ')
+            origDayTimeText = exam[6].getText().split(' ')
             day = origDayTimeText[0]
             origTimeText = origDayTimeText[1].split('~')
             startTime = origTimeText[0]
             endTime = origTimeText[1]
             print(day, startTime, endTime)
             tmp = {
-                'name': exam[3].getText(),
+                'name': exam[4].getText(),
                 'day': day,
                 'startTime': startTime,
                 'endTime': endTime,
-                'location': exam[5].getText() + '-' + exam[6].getText()
+                'location': exam[7].getText()
             }
             print(tmp)
             schedules.append(tmp)

@@ -188,5 +188,5 @@ END:VEVENT
 
 
 if __name__ == '__main__':
-    cookies = {"JSESSIONID": "B282B89EB12DFB225742F23F1D1A31CC", "SERVERID": "122"}
+    cookies = {'JSESSIONID': '815FD255EE5F7579F289C561CD04FE5F', 'SERVERID': '121'}
     course_excel_handler(cookies, '2021-2022-1', '2021-09-02', '.')
