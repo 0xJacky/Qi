@@ -1,7 +1,8 @@
 requests==2.26.0
 urllib3==1.26.6
-beautifulsoup4==4.9.3
-Flask==2.0.1
-selenium==3.141.0
+beautifulsoup4==4.10.0
+Flask==2.0.2
+pyDes==2.0.1
+selenium==4.1.0
 xlrd==2.0.1
-xlsxwriter==3.0.1
+xlsxwriter==3.0.2

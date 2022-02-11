@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from auth2 import Auth
+from auth3 import Auth
 
 
 def get_semester(cookies):

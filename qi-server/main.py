@@ -6,13 +6,13 @@ import tempfile
 import flask
 from flask import Flask, request
 
-from auth2 import Auth
+from auth3 import Auth
 from course_excel import course_excel_handler
 from exam import exam_handler
 from semester import get_semester
 from transposition import get_college_and_grade_list, get_major_list, transposition
 
-sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+# sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 app = Flask(__name__)
 

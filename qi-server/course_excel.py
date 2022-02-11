@@ -5,7 +5,7 @@ import tempfile
 
 import xlrd
 
-from auth2 import Auth
+from auth3 import Auth
 from holiday import Holiday
 from timetable import Timetable
 

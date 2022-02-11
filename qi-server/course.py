@@ -3,7 +3,7 @@ import re
 
 from bs4 import BeautifulSoup
 
-from auth2 import Auth
+from auth3 import Auth
 from holiday import Holiday
 from timetable import Timetable
 

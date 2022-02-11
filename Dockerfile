@@ -1,9 +1,9 @@
-FROM joyzoursky/python-chromedriver:3.9-selenium
+FROM --platform=$TARGETPLATFORM python:3.9-slim-buster
 WORKDIR /app
 COPY ./sources.list /etc/apt/sources.list
 COPY ./qi-server .
 RUN echo "installing nginx"
-RUN cd /app && apt-get update -y && apt install nginx -y
+RUN cd /app && apt-get update -y && apt install nginx gcc -y
 RUN echo "installing Qi server requirement"
 RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 RUN cd /app && pip3 install -r requirements.txt
