@@ -7,6 +7,7 @@ from pyDes import des, ECB, PAD_PKCS5
 class Auth:
     cookies = {}
     ok = False
+
     def __init__(self, cookies=None):
         self.session = requests.session()
         self.session.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ' \
@@ -24,6 +25,7 @@ class Auth:
         self.session.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
         if cookies:
             self.session.cookies = requests.utils.cookiejar_from_dict(cookies)
+            self.check_login()
 
     def login(self, school_id, password):
         # 初始化 session
@@ -65,9 +67,12 @@ class Auth:
         resp = self.session.get(logonUrl, allow_redirects=False)
         loginToTkUrl = resp.headers['Location']
         self.session.get(loginToTkUrl, allow_redirects=False)
-        resp = self.session.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.htmlx')
+        self.session.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.htmlx')
         self.cookies = self.session.cookies.get_dict()
-        return self.cookies, resp.status_code == 200
+
+        self.check_login()
+
+        return self.cookies, self.ok
 
     @staticmethod
     def encryptByDES(message):

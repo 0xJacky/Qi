@@ -1,7 +1,7 @@
-requests==2.26.0
 urllib3==1.26.6
+requests==2.26.0
 beautifulsoup4==4.10.0
-Flask==2.0.2
+Flask==2.0.3
 pyDes==2.0.1
 selenium==4.1.0
 xlrd==2.0.1
