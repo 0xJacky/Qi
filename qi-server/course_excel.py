@@ -24,10 +24,12 @@ def handle_zc(zc):
 
     # 节次
     zc = zc.replace('节', '')
+    zc = zc.replace('单', '')
+    zc = zc.replace('双', '')
     zc = zc.replace('([周])', '(周)')
-    print(zc)
+    print('节次', zc)
     section = re.findall(r'[\[](.+?)[]]', zc)[0]
-
+    print('节次', section)
     zc = zc.split('[')[0]
     # 去除中文 周次里的 1-18(周) 单 双
     zc = re.sub('[\u4e00-\u9fa5]', '', zc).replace('()', '')

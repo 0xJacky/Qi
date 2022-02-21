@@ -37,7 +37,7 @@ export default {
             semesters: ['2021-2022-2'],
             formState: {
                 xnxqid: '2021-2022-2',
-                start_date: moment('2022-02-18', 'YYYY-MM-DD')
+                start_date: moment('2022-02-21', 'YYYY-MM-DD')
             },
             retry: 0,
         }
@@ -45,7 +45,7 @@ export default {
     created() {
         if (this.$route.query) {
             this.formState.xnxqid = this.$route.query.xnxqid
-            this.formState.start_date = moment(this.$route.query.start_date ?? '2022-02-18', 'YYYY-MM-DD')
+            this.formState.start_date = moment(this.$route.query.start_date ?? '2022-02-21', 'YYYY-MM-DD')
         }
         this.get_semesters()
     },
