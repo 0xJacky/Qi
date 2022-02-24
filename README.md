@@ -38,7 +38,7 @@ docker pull uozi/qi
 ```
 2. 启动镜像
 ```
-docker run -d --restart=always -p 5001:80 uozi/qi:latest
+docker run -d --restart=always -p 5001:80 --dns 114.114.114.114 uozi/qi:latest
 ```
 3. 反向代理
 
