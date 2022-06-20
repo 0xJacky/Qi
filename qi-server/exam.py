@@ -19,18 +19,18 @@ def exam_handler(cookies, xnxqid, output_dir='.'):
     for tr in tab.findAll('tr'):
         if tr.findAll('td'):
             exam = tr.findAll('td')
-            origDayTimeText = exam[6].getText().split(' ')
+            origDayTimeText = exam[7].getText().split(' ')
             day = origDayTimeText[0]
             origTimeText = origDayTimeText[1].split('~')
             startTime = origTimeText[0]
             endTime = origTimeText[1]
             print(day, startTime, endTime)
             tmp = {
-                'name': exam[4].getText(),
+                'name': exam[5].getText(),
                 'day': day,
                 'startTime': startTime,
                 'endTime': endTime,
-                'location': exam[7].getText()
+                'location': exam[8].getText()
             }
             print(tmp)
             schedules.append(tmp)
