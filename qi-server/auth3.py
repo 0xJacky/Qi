@@ -30,7 +30,7 @@ class Auth:
     def login(self, school_id, password):
         # 初始化 session
         self.session.headers['Host'] = 'jwxt.sztu.edu.cn'
-        resp = self.session.get('https://jwxt.sztu.edu.cn/', allow_redirects=False)
+        resp = self.session.get('https://jwxt.sztu.edu.cn/', allow_redirects=False, verify=False)
         # 1
         resp = self.session.get(resp.headers['Location'], allow_redirects=False)
         # 2
