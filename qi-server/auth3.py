@@ -30,17 +30,17 @@ class Auth:
     def login(self, school_id, password):
         # 初始化 session
         self.session.headers['Host'] = 'jwxt.sztu.edu.cn'
-        resp = self.session.get('https://jwxt.sztu.edu.cn/', allow_redirects=False)
+        resp = self.get('https://jwxt.sztu.edu.cn/')
         # 1
-        resp = self.session.get(resp.headers['Location'], allow_redirects=False)
+        resp = self.get(resp.headers['Location'])
         # 2
-        resp = self.session.get(resp.headers['Location'], allow_redirects=False)
+        resp = self.get(resp.headers['Location'])
 
         self.session.headers['Host'] = 'auth.sztu.edu.cn'
-        self.session.get(resp.headers['Location'], allow_redirects=False)
+        self.get(resp.headers['Location'])
 
-        self.session.get('https://auth.sztu.edu.cn/idp/AuthnEngine', allow_redirects=False)
-        self.session.get('https://auth.sztu.edu.cn/idp/authcenter/ActionAuthChain?entityId=jiaowu')
+        self.get('https://auth.sztu.edu.cn/idp/AuthnEngine')
+        self.get('https://auth.sztu.edu.cn/idp/authcenter/ActionAuthChain?entityId=jiaowu')
         # 构造登录
         data = {
             'j_username': school_id,
@@ -49,25 +49,24 @@ class Auth:
             'op': 'login',
             'spAuthChainCode': 'cc2fdbc3599b48a69d5c82a665256b6b'
         }
-        resp = self.session.post('https://auth.sztu.edu.cn/idp/authcenter/ActionAuthChain',
-                                 data=data, allow_redirects=False)
+        resp = self.post('https://auth.sztu.edu.cn/idp/authcenter/ActionAuthChain', data)
         resp = resp.json()
         # print(resp)
         if resp['loginFailed'] != 'false':
             return {}, False
 
-        resp = self.session.post('https://auth.sztu.edu.cn/idp/AuthnEngine?'
-                                 'currentAuth=urn_oasis_names_tc_SAML_2.0_ac_classes_BAMUsernamePassword',
-                                 data=data, allow_redirects=False)
+        resp = self.post('https://auth.sztu.edu.cn/idp/AuthnEngine?'
+                         'currentAuth=urn_oasis_names_tc_SAML_2.0_ac_classes_BAMUsernamePassword',
+                         data=data)
         ssoURL = resp.headers['Location']
-        resp = self.session.get(ssoURL, allow_redirects=False)
+        resp = self.get(ssoURL)
         logonUrl = resp.headers['Location']
 
         self.session.headers['Host'] = 'jwxt.sztu.edu.cn'
-        resp = self.session.get(logonUrl, allow_redirects=False)
+        resp = self.get(logonUrl)
         loginToTkUrl = resp.headers['Location']
-        self.session.get(loginToTkUrl, allow_redirects=False)
-        self.session.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.htmlx')
+        self.get(loginToTkUrl)
+        self.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.htmlx')
         self.cookies = self.session.cookies.get_dict()
 
         self.check_login()
@@ -86,11 +85,11 @@ class Auth:
         return base64.b64encode(secret_bytes)
 
     def check_login(self):
-        resp = self.session.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.htmlx')
+        resp = self.get('https://jwxt.sztu.edu.cn/jsxsd/framework/xsMain.htmlx')
         self.ok = (resp.status_code == 200)
 
     def get(self, url):
-        return self.session.get(url, timeout=2, cookies=self.cookies, verify=False)
+        return self.session.get(url, timeout=2, cookies=self.cookies, verify=False, allow_redirects=False)
 
     def get_excel(self, url):
         headers = self.session.headers
@@ -99,4 +98,4 @@ class Auth:
         return self.session.get(url, headers=headers, timeout=2, cookies=self.cookies, verify=False)
 
     def post(self, url, data):
-        return self.session.post(url, timeout=2, cookies=self.cookies, verify=False, data=data)
+        return self.session.post(url, timeout=2, cookies=self.cookies, verify=False, data=data, allow_redirects=False)
