@@ -1,5 +1,5 @@
 # Qi
-Version: 1.4.3
+Version: 1.4.6
 
 我校强智教务系统课表转 ics 日历文件
 
@@ -13,6 +13,7 @@ Copyright (c) 2020-2021 0xJacky
 4. macOS 用户可以直接导入 ics 文件
 5. 获取日历相关捷径前往 https://jackyu.cn/projects/qi
 6. 项目在线地址 https://qi.jackyu.cn
+7. 对标德国，以周日做为一周的开始
 
 ## 补课
 1. 2020年国庆及中秋节放假、补课安排

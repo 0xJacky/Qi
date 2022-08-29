@@ -122,11 +122,14 @@ def course_excel_handler(cookies, xnxqid, start_date, output_dir='.'):
                         _index = 3
                     print(value[k][_index])
                     zc, section = handle_zc(value[k][_index])
+
+                    # 注意：有些课程没给地点
+                    location = '' if (_index + 1) >= len(value[k]) else value[k][_index + 1]
                     tmp = {
                         'name': value[k][0],
                         'week': zc,
                         'section_index': section,
-                        'location': value[k][_index + 1],
+                        'location': location,
                         'description': value[k][_index - 1],
                         'day': j - 1,
                     }
@@ -154,6 +157,10 @@ def course_excel_handler(cookies, xnxqid, start_date, output_dir='.'):
         hour = timetable.translate(course['section_index'])
 
         for w in course['week']:
+            # 对标德国，周日为第一周的开始，谢谢你
+            if course['day'] == 6:
+                w = int(w) - 1
+
             day = (date + datetime.timedelta(days=course['day'] + 7 * (int(w) - 1)))
             if day < start:
                 continue
